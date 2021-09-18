@@ -12,7 +12,7 @@ public class Control implements ActionListener{
 	
 	public Control(View v, Model m) {
 		this.v=v;
-		this.m=m;
+		this.m=m; 
 		v.registraController(this);
 		m.NumeroDaIndovinare();
 	}
