@@ -1,7 +1,7 @@
 package View;
 
 import java.awt.EventQueue;
-
+import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -11,16 +11,23 @@ import javax.swing.SwingConstants;
 import Control.Control;
 
 import java.awt.Font;
+import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
+import javax.swing.DropMode;
 
 public class View {
 
 	private JFrame frame;
 	private JTextField textGuess;
 	private JButton btnInvia;
+	private JButton btnLog;
+	private JButton btnHome;
 	private JLabel lblTentativi;
 	private JLabel lblTitolo;
 	private JLabel lblNewLabel;
 	private JLabel lblAiuto;
+	private JTextArea textLog;
+	private JButton btnNewGame;
 	/**
 	 * Launch the application.
 	 */
@@ -47,10 +54,11 @@ public class View {
 		frame.getContentPane().setLayout(null);
 		
 		btnInvia = new JButton("Invia");
-		btnInvia.setBounds(178, 154, 89, 23);
+		btnInvia.setBounds(178, 162, 89, 23);
 		frame.getContentPane().add(btnInvia);
 		
 		textGuess = new JTextField();
+		textGuess.setEditable(true);
 		textGuess.setBounds(178, 131, 89, 20);
 		frame.getContentPane().add(textGuess);
 		textGuess.setColumns(10);
@@ -63,7 +71,7 @@ public class View {
 		lblTitolo = new JLabel("Indovina il Numero");
 		lblTitolo.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblTitolo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitolo.setBounds(10, 11, 414, 53);
+		lblTitolo.setBounds(10, -12, 414, 53);
 		frame.getContentPane().add(lblTitolo);
 		
 		lblNewLabel = new JLabel("Tentativi: ");
@@ -75,21 +83,44 @@ public class View {
 		lblAiuto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAiuto.setBounds(104, 104, 226, 14);
 		frame.getContentPane().add(lblAiuto);
+		
+		btnLog = new JButton("View log");
+		btnLog.setBounds(178, 227, 89, 23);
+		frame.getContentPane().add(btnLog);
+		btnLog.setVisible(true);
+		
+		btnHome = new JButton("Back");
+		btnHome.setBounds(178, 227, 89, 23);
+		frame.getContentPane().add(btnHome);
+		btnHome.setVisible(false);
+		
+		textLog = new JTextArea();
+		textLog.setBounds(10, 30, 414, 185);
+		frame.getContentPane().add(textLog);
+		textLog.setVisible(false);
+		
+		btnNewGame = new JButton("Rigioca");
+		btnNewGame.setBounds(20, 227, 89, 23);
+		frame.getContentPane().add(btnNewGame);
+		btnNewGame.setVisible(false);
+		
 	}
 
 	public void registraController(Control control) {
 		btnInvia.addActionListener(control);
-		
+		btnLog.addActionListener(control);
+		btnHome.addActionListener(control);
+		btnNewGame.addActionListener(control);
 	}
 	
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
 	
-	public int getNumeroInserito() {
+	public int getNumeroInserito(){
 		String NumeroIns = textGuess.getText();
-		int NumeroInserito = Integer.parseInt(NumeroIns);
-		return NumeroInserito;
+		int numeroInserito = Integer.parseInt(NumeroIns);
+		return numeroInserito;
 	}
 	public void win() {
 		textGuess.setVisible(false);
@@ -97,13 +128,16 @@ public class View {
 		lblTentativi.setVisible(false);
 		lblNewLabel.setVisible(false);
 		lblAiuto.setVisible(false);
+		btnLog.setVisible(true);
+		btnNewGame.setVisible(true);
 		lblTitolo.setText("HAI VINTO");
 	}
 	public void aiuto(boolean piuAlto) {
 		if(piuAlto) lblAiuto.setText("Il numero e' piu' alto");
 		else lblAiuto.setText("Il numero e' piu' basso");
 	}
-	public void scala() {
+	public boolean scala() {
+		boolean perso = false;
 		String nTent = lblTentativi.getText();
 		int nTentativi = Integer.parseInt(nTent);
 		nTentativi--;
@@ -113,11 +147,65 @@ public class View {
 			lblTentativi.setVisible(false);
 			lblNewLabel.setVisible(false);
 			lblAiuto.setVisible(false);
+			btnLog.setVisible(true);
 			lblTitolo.setText("HAI PERSO");
+			btnNewGame.setVisible(true);
+			perso = true;
 		}
 		else {
 			nTent=String.valueOf(nTentativi);
-			lblTentativi.setText(nTent);
 		}
+		lblTentativi.setText(nTent);
+		return perso;
+	}
+	public void setTextLog(String testo) {
+		textLog.setText("");
+		textLog.setText(testo);
+	}
+	public void showLog() {
+		textGuess.setVisible(false);
+		btnInvia.setVisible(false);
+		lblTentativi.setVisible(false);
+		lblNewLabel.setVisible(false);
+		lblAiuto.setVisible(false);
+		btnLog.setVisible(false);
+		lblTitolo.setText("Log");
+		textLog.setVisible(true);
+		btnHome.setVisible(true);
+	}
+	public void hideLog(boolean perso) {
+		if(perso) {
+			btnInvia.setEnabled(false);
+			textGuess.setEditable(false);
+		}
+		textGuess.setVisible(true);
+		btnInvia.setVisible(true);
+		lblTentativi.setVisible(true);
+		lblNewLabel.setVisible(true);
+		lblAiuto.setVisible(true);
+		btnLog.setVisible(true);
+		lblTitolo.setText("Indovina il numero");
+		textLog.setVisible(false);
+		btnHome.setVisible(false);
+	}
+	public void scriviAiuto(String messaggio) {
+		lblAiuto.setText(messaggio);
+	}
+	public void restart() {
+		textGuess.setEditable(true);
+		btnInvia.setEnabled(true);
+		textGuess.setText("");
+		textGuess.setVisible(true);
+		btnInvia.setVisible(true);
+		lblTentativi.setText("5");
+		lblTentativi.setVisible(true);
+		lblNewLabel.setVisible(true);
+		lblAiuto.setText("");
+		lblAiuto.setVisible(true);
+		btnLog.setVisible(true);
+		lblTitolo.setText("Indovina il numero");
+		textLog.setVisible(false);
+		btnHome.setVisible(false);
+		btnNewGame.setVisible(false);
 	}
 }

@@ -7,10 +7,9 @@ public class Model {
 	public Model() {
 	}
 	public int NumeroDaIndovinare(){
-		numero = (new Random()).nextInt(10);
+		numero = (new Random()).nextInt(100);
 		return numero;
 	}
-	
 	public boolean IsGuessed(int numeroInserito) {
 		boolean guess = false;
 		if (numeroInserito == numero) guess = true;
