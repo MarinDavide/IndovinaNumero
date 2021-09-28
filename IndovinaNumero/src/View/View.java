@@ -14,6 +14,7 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
 import javax.swing.DropMode;
+import javax.swing.JScrollPane;
 
 public class View {
 
@@ -28,6 +29,7 @@ public class View {
 	private JLabel lblAiuto;
 	private JTextArea textLog;
 	private JButton btnNewGame;
+	private JScrollPane sP;
 	/**
 	 * Launch the application.
 	 */
@@ -97,13 +99,20 @@ public class View {
 		textLog = new JTextArea();
 		textLog.setTabSize(7);
 		textLog.setBounds(10, 30, 414, 185);
-		frame.getContentPane().add(textLog);
-		textLog.setVisible(false);
+		textLog.setEditable(false);
+		//frame.getContentPane().add(textLog);
+		//textLog.setVisible(false);
 		
 		btnNewGame = new JButton("Rigioca");
 		btnNewGame.setBounds(20, 227, 89, 23);
 		frame.getContentPane().add(btnNewGame);
 		btnNewGame.setVisible(false);
+		
+		sP = new JScrollPane(textLog);
+		sP.setBounds(10, 29, 414, 182);
+		frame.getContentPane().add(sP);
+		sP.setVisible(false);
+		
 		
 	}
 
@@ -124,14 +133,11 @@ public class View {
 		return numeroInserito;
 	}
 	public void win() {
-		textGuess.setVisible(false);
-		btnInvia.setVisible(false);
-		lblTentativi.setVisible(false);
-		lblNewLabel.setVisible(false);
-		lblAiuto.setVisible(false);
+		btnInvia.setEnabled(false);
+		textGuess.setEditable(false);
+		lblAiuto.setText("Numero indovinato, hai vinto");
 		btnLog.setVisible(true);
 		btnNewGame.setVisible(true);
-		lblTitolo.setText("HAI VINTO");
 	}
 	public void aiuto(boolean piuAlto) {
 		if(piuAlto) lblAiuto.setText("Il numero e' piu' alto");
@@ -143,19 +149,13 @@ public class View {
 		int nTentativi = Integer.parseInt(nTent);
 		nTentativi--;
 		if(nTentativi<=0) {
-			textGuess.setVisible(false);
-			btnInvia.setVisible(false);
-			lblTentativi.setVisible(false);
-			lblNewLabel.setVisible(false);
-			lblAiuto.setVisible(false);
-			btnLog.setVisible(true);
-			lblTitolo.setText("HAI PERSO");
+			btnInvia.setEnabled(false);
+			textGuess.setEditable(false);
+			lblAiuto.setText("Tentativi esauriti, hai perso");
 			btnNewGame.setVisible(true);
 			perso = true;
 		}
-		else {
-			nTent=String.valueOf(nTentativi);
-		}
+		nTent=String.valueOf(nTentativi);
 		lblTentativi.setText(nTent);
 		return perso;
 	}
@@ -173,6 +173,7 @@ public class View {
 		lblTitolo.setText("Log");
 		textLog.setVisible(true);
 		btnHome.setVisible(true);
+		sP.setVisible(true);
 	}
 	public void hideLog(boolean perso) {
 		if(perso) {
@@ -188,6 +189,7 @@ public class View {
 		lblTitolo.setText("Indovina il numero");
 		textLog.setVisible(false);
 		btnHome.setVisible(false);
+		sP.setVisible(false);
 	}
 	public void scriviAiuto(String messaggio) {
 		lblAiuto.setText(messaggio);

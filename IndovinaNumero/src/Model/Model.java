@@ -7,6 +7,9 @@ public class Model {
 	public String tentativi = "7";
 	public Model() {
 	}
+	public int getNumero() {
+		return numero;
+	}
 	public String getTentativi() {
 		return tentativi;
 	}

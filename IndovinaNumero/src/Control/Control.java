@@ -19,8 +19,7 @@ public class Control implements ActionListener{
 		v.restart(m.getTentativi());
 		v.registraController(this);
 		m.NumeroDaIndovinare();
-		l.giocoIniziato();
-		
+		l.giocoIniziato();		
 	}
 
 	@Override
@@ -49,7 +48,11 @@ public class Control implements ActionListener{
 					v.aiuto(piuAlto);
 					l.numeroAltoBasso(piuAlto);
 					perso = v.scala();
-					if(perso) l.getStampDate("Hai finito i tentativi, ha perso"); 
+					if(perso) {
+						l.getStampDate("Hai finito i tentativi, hai perso");
+						String numero = String.valueOf(m.getNumero());
+						l.getStampDate("Il numero da indovinare era: "+numero);
+					}
 				}
 			}
 		}
@@ -59,7 +62,7 @@ public class Control implements ActionListener{
 			v.showLog();	
 		}
 		if(arg0.getActionCommand().equalsIgnoreCase("Back")) {
-			l.getStampDate("Pulsante home premuto");
+			l.getStampDate("Pulsante back premuto");
 			v.hideLog(perso);
 		}
 		if(arg0.getActionCommand().equalsIgnoreCase("Rigioca")) {
