@@ -16,6 +16,7 @@ public class Control implements ActionListener{
 		this.v=v;
 		this.m=m; 
 		this.l=l;
+		v.restart(m.getTentativi());
 		v.registraController(this);
 		m.NumeroDaIndovinare();
 		l.giocoIniziato();
@@ -64,7 +65,7 @@ public class Control implements ActionListener{
 		if(arg0.getActionCommand().equalsIgnoreCase("Rigioca")) {
 			perso = false;
 			m.NumeroDaIndovinare();
-			v.restart();
+			v.restart(m.getTentativi());
 			l.getStampDate("Nuova partita iniziata");
 		}
 	}

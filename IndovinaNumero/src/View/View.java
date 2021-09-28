@@ -63,7 +63,7 @@ public class View {
 		frame.getContentPane().add(textGuess);
 		textGuess.setColumns(10);
 		
-		lblTentativi = new JLabel("5");
+		lblTentativi = new JLabel("");
 		lblTentativi.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTentativi.setBounds(236, 75, 18, 23);
 		frame.getContentPane().add(lblTentativi);
@@ -95,6 +95,7 @@ public class View {
 		btnHome.setVisible(false);
 		
 		textLog = new JTextArea();
+		textLog.setTabSize(7);
 		textLog.setBounds(10, 30, 414, 185);
 		frame.getContentPane().add(textLog);
 		textLog.setVisible(false);
@@ -191,13 +192,13 @@ public class View {
 	public void scriviAiuto(String messaggio) {
 		lblAiuto.setText(messaggio);
 	}
-	public void restart() {
+	public void restart(String tentativi) {
 		textGuess.setEditable(true);
 		btnInvia.setEnabled(true);
 		textGuess.setText("");
 		textGuess.setVisible(true);
 		btnInvia.setVisible(true);
-		lblTentativi.setText("5");
+		lblTentativi.setText(tentativi);
 		lblTentativi.setVisible(true);
 		lblNewLabel.setVisible(true);
 		lblAiuto.setText("");

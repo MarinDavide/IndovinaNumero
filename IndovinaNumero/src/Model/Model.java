@@ -4,7 +4,11 @@ import java.util.Random;
 
 public class Model {
 	int numero;
+	public String tentativi = "7";
 	public Model() {
+	}
+	public String getTentativi() {
+		return tentativi;
 	}
 	public int NumeroDaIndovinare(){
 		numero = (new Random()).nextInt(100);
